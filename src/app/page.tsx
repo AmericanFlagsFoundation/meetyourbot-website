@@ -263,7 +263,6 @@ export default function HomePage() {
             Ready to meet your bot?
           </h2>
           <p className="text-xl text-white/90 mb-10 leading-relaxed">
-            Join 50+ Texas law firms that stopped losing after-hours leads.
             Your bot is waiting in its box. Let&apos;s open it.
           </p>
           <Link
