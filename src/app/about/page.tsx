@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'About — MeetYourBot',
-  description: 'MeetYourBot was founded March 27, 2026 to give small businesses access to enterprise-grade chatbot technology without the enterprise price tag.',
+export const metadata: Metadata = {
+  title: 'About MeetYourBot — Founded March 27, 2026 | Austin, Texas',
+  description: 'MeetYourBot was founded to give every small law firm the same AI advantage that enterprise firms have. Built in Austin, Texas. Founded March 27, 2026.',
 }
 
 export default function AboutPage() {
@@ -177,6 +178,28 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Founder Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-black text-[#0F172A] mb-10 text-center">The Person Behind the Bot</h2>
+          <div className="bg-[#F8FAFC] rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-20 h-20 bg-[#FF6B35] rounded-full flex items-center justify-center text-4xl flex-shrink-0">
+              👤
+            </div>
+            <div>
+              <div className="text-2xl font-black text-[#0F172A] mb-1">Jamie Lewis</div>
+              <div className="text-[#FF6B35] font-semibold mb-4">Founder &amp; CEO</div>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Jamie Lewis founded MeetYourBot on March 27, 2026 with one belief — that every small law firm
+                in America deserves a 24/7 team member that never sleeps, never misses a lead, and fits in a box.
+                Based in Austin, Texas, Jamie built MeetYourBot to give small firms the same unfair advantage
+                that enterprise companies have had for years. The bot is just the beginning.
+              </p>
+            </div>
           </div>
         </div>
       </section>

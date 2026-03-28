@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'How It Works — MeetYourBot',
-  description: 'Three simple steps to put a 24/7 chatbot on your law firm website. Bot in a Box™ onboarding, knowledge base training, and instant lead capture.',
+export const metadata: Metadata = {
+  title: 'How It Works — MeetYourBot | Bot in a Box™ Setup in 24 Hours',
+  description: 'See how MeetYourBot works. Purchase, unbox your bot, go live in 24 hours. Your branded AI chatbot learns your law firm inside and out.',
 }
 
 export default function HowItWorksPage() {

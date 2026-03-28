@@ -1,9 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/posts'
 
-export const metadata = {
-  title: 'Blog — MeetYourBot',
-  description: 'Insights and stories for law firms on lead capture, client intake, and chatbot technology.',
+export const metadata: Metadata = {
+  title: 'Blog — MeetYourBot | Law Firm AI Tips & Insights',
+  description: 'Tips, insights, and stories for law firms using AI chatbots. Learn how to capture more leads, automate client intake, and grow your firm.',
 }
 
 export default function BlogPage() {

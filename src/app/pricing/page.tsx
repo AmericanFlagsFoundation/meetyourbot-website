@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'Pricing — MeetYourBot',
-  description: 'Simple, honest pricing for law firm chatbots. Starter $49/mo, Pro $149/mo, Agency $349/mo. No contracts. Live in 24 hours.',
+export const metadata: Metadata = {
+  title: 'Pricing — MeetYourBot | AI Chatbot for Law Firms Starting at $49/mo',
+  description: 'Simple, transparent pricing for law firm AI chatbots. Starter $49/mo, Pro $149/mo, Agency $349/mo. No contracts. Cancel anytime.',
 }
 
 export default function PricingPage() {

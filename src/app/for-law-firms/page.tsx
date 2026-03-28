@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'For Law Firms — MeetYourBot',
-  description: 'Your firm never closes. Now your intake never does either. MeetYourBot captures leads and answers client questions 24/7 for Texas law firms.',
+export const metadata: Metadata = {
+  title: 'AI Chatbot for Law Firms — MeetYourBot | 24/7 Legal Lead Capture',
+  description: 'Stop losing leads after hours. MeetYourBot gives your law firm a 24/7 AI chatbot that captures leads, answers client questions, and notifies you instantly. Built for Texas attorneys.',
 }
 
 export default function ForLawFirmsPage() {

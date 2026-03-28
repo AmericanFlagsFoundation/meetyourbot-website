@@ -1,5 +1,5 @@
 ---
-title: "Meet Your Bot: Why Every Law Firm Needs an AI Agent in 2026"
+title: "Meet Your Bot™: Why Every Law Firm Needs an AI Agent in 2026"
 date: "2026-03-27"
 excerpt: "You're losing leads every night while you sleep. Here's the math — and the fix."
 category: "Law Firms"

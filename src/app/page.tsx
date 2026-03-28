@@ -1,4 +1,11 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import BotInABox from '@/components/BotInABox'
+
+export const metadata: Metadata = {
+  title: 'MeetYourBot — AI Chatbot for Law Firms | Bot in a Box™',
+  description: 'MeetYourBot puts a branded AI chatbot on your law firm website. Capture leads 24/7, get instant notifications, and go live in 24 hours. Starting at $49/mo.',
+}
 
 export default function HomePage() {
   return (
@@ -55,14 +62,14 @@ export default function HomePage() {
         </div>
       </section>
 
+      <BotInABox />
+
       {/* Social Proof Bar */}
       <section className="bg-[#FF6B35] py-4 px-4">
         <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-8 text-white text-sm font-semibold">
-          <span>⭐ Trusted by 50+ law firms across Texas</span>
+          <span>⭐ Built for Texas law firms</span>
           <span>•</span>
-          <span>📞 Average 3.2x more leads captured after hours</span>
-          <span>•</span>
-          <span>⚡ Live in 24 hours or less</span>
+          <span>⚡ Setup in 24 hours or less</span>
           <span>•</span>
           <span>🔒 No case data ever stored in your bot&apos;s memory</span>
         </div>

@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
             <div className="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-              <p>© 2026 MeetYourBot. Founded March 27, 2026. Your bot never sleeps.</p>
+              <p>© 2026 MeetYourBot. Founded March 27, 2026. The bot that never sleeps, never misses a lead, and fits in a box.</p>
             </div>
           </div>
         </footer>
