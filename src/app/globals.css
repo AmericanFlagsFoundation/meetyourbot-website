@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes boxOpen {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-110deg); }
+}
+
+@keyframes botRise {
+  0% { transform: translateY(60px) scale(0.5); opacity: 0; }
+  100% { transform: translateY(0px) scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.box-lid {
+  animation: boxOpen 0.8s ease-out 0.5s forwards;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+}
+
+.bot-rise {
+  animation: botRise 0.6s ease-out 1s both;
+}
+
+.bot-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.perspective-box {
+  perspective: 600px;
+}
