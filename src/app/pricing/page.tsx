@@ -1,229 +1,137 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
+'use client';
+import { useState } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Pricing — MeetYourBot | AI Chatbot for Law Firms Starting at $49/mo',
-  description: 'Simple, transparent pricing for law firm AI chatbots. Starter $49/mo, Pro $149/mo, Agency $349/mo. No contracts. Cancel anytime.',
-}
+const plans = [
+  {
+    name: 'Starter',
+    price: '$79',
+    badge: 'Essential AI',
+    description: 'Perfect for solo practitioners and small firms. Your 24/7 AI intake bot answers client questions, captures leads, and never misses an inquiry — day or night.',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE,
+    features: ['1 AI chatbot', '24/7 client intake', 'Lead capture & qualification', 'FAQ automation', 'Email support'],
+  },
+  {
+    name: 'Pro',
+    price: '$179',
+    badge: 'Advanced AI',
+    description: 'Ideal for growing law firms that need smarter responses. Our Pro bot handles complex legal questions with greater accuracy, nuance, and professionalism.',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE,
+    features: ['1 AI chatbot', '24/7 client intake', 'Complex legal Q&A', 'Smarter lead qualification', 'Priority support'],
+    popular: true,
+  },
+  {
+    name: 'Agency',
+    price: '$349',
+    badge: 'Premium AI',
+    description: 'For established firms that demand the best. Our most powerful AI delivers the highest quality client interactions and deepest legal understanding available.',
+    priceId: process.env.NEXT_PUBLIC_STRIPE_AGENCY_PRICE,
+    features: ['1 AI chatbot', '24/7 client intake', 'Highest accuracy responses', 'Advanced legal understanding', 'Dedicated support'],
+  },
+];
 
 export default function PricingPage() {
+  const [addKb, setAddKb] = useState(false);
+  const [loading, setLoading] = useState<string | null>(null);
+  const [showKbInfo, setShowKbInfo] = useState(false);
+
+  const handleCheckout = async (priceId: string, planName: string) => {
+    setLoading(planName);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, addKb }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(null);
+  };
+
   return (
-    <div>
-      {/* Hero */}
-      <section className="bg-[#0F172A] text-white py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-5xl font-black mb-6">
-            Pricing that makes <span className="text-[#FF6B35]">sense.</span>
-          </h1>
-          <p className="text-xl text-gray-300">
-            No setup fees. No annual lock-ins. No calling a sales rep to get a quote.
-            Pick a plan, meet your bot, go live. That&apos;s it.
-          </p>
+    <main className="min-h-screen bg-gray-50 py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h1>
+          <p className="text-xl text-gray-600">No contracts. Cancel anytime. Built exclusively for law firms.</p>
         </div>
-      </section>
 
-      {/* Model-Gated Tiers Callout */}
-      <section className="bg-[#FF6B35]/10 border-y border-[#FF6B35]/20 py-5 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-[#0F172A] font-semibold">
-            🧠 <strong>Model-gated tiers:</strong> Higher plans unlock more powerful AI models — your clients get smarter answers as you grow.
-          </p>
-        </div>
-      </section>
-
-      {/* Pricing Cards */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {/* Starter */}
-            <div className="rounded-2xl border border-gray-200 p-8 shadow-sm flex flex-col">
-              <div className="mb-6">
-                <h2 className="text-2xl font-black text-[#0F172A] mb-1">Starter</h2>
-                <p className="text-gray-500 text-sm">Perfect for solo practitioners and small firms</p>
+        <div className="bg-white rounded-2xl shadow-sm max-w-lg mx-auto mb-6 overflow-hidden">
+          <div className="flex items-center gap-4 p-6">
+            <div className="flex-grow">
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-gray-900">Train Your Bot On Your Firm's Documents</p>
+                <button
+                  onClick={() => setShowKbInfo(!showKbInfo)}
+                  className="w-5 h-5 rounded-full bg-gray-200 text-gray-600 text-xs font-bold flex items-center justify-center hover:bg-blue-100 hover:text-blue-700 transition-colors flex-shrink-0"
+                >
+                  ?
+                </button>
               </div>
-              <div className="mb-6">
-                <span className="text-6xl font-black text-[#0F172A]">$49</span>
-                <span className="text-gray-500 text-lg">/mo</span>
-              </div>
-              <ul className="space-y-3 text-gray-600 mb-8 flex-grow">
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong>1</strong> branded chatbot</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong>500</strong> conversations/mo</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Lead capture form</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Instant push notifications</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Bot in a Box™ onboarding</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Email support</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Standard AI model</span></li>
-                <li className="flex gap-2 items-start text-gray-400"><span className="font-bold mt-0.5">–</span><span>Knowledge Base (add-on available)</span></li>
-              </ul>
-              <Link href="#" className="block text-center border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white px-6 py-3 rounded-full font-bold transition-colors">
-                Get Started →
-              </Link>
+              <p className="text-sm text-gray-500 mt-1">Your bot learns your practice areas, FAQs, and processes — so it answers like a member of your team.</p>
             </div>
-
-            {/* Pro */}
-            <div className="rounded-2xl border-2 border-[#FF6B35] p-8 shadow-xl flex flex-col bg-[#0F172A] text-white relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FF6B35] text-white text-xs font-black px-5 py-1.5 rounded-full uppercase tracking-widest">
-                Most Popular
-              </div>
-              <div className="mb-6">
-                <h2 className="text-2xl font-black mb-1">Pro</h2>
-                <p className="text-gray-400 text-sm">For growing firms with multiple practice areas</p>
-              </div>
-              <div className="mb-6">
-                <span className="text-6xl font-black">$149</span>
-                <span className="text-gray-400 text-lg">/mo</span>
-              </div>
-              <ul className="space-y-3 text-gray-300 mb-8 flex-grow">
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong className="text-white">3</strong> branded chatbots</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong className="text-white">2,500</strong> conversations/mo</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Lead capture form</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Instant push notifications</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Bot in a Box™ onboarding</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Priority support</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong className="text-white">More powerful AI model</strong></span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Knowledge Base (add-on available)</span></li>
-              </ul>
-              <Link href="#" className="block text-center bg-[#FF6B35] hover:bg-[#FF8C69] text-white px-6 py-3 rounded-full font-bold transition-colors">
-                Get Started →
-              </Link>
-            </div>
-
-            {/* Agency */}
-            <div className="rounded-2xl border border-gray-200 p-8 shadow-sm flex flex-col">
-              <div className="mb-6">
-                <h2 className="text-2xl font-black text-[#0F172A] mb-1">Agency</h2>
-                <p className="text-gray-500 text-sm">Multi-location firms and agencies managing client bots</p>
-              </div>
-              <div className="mb-6">
-                <span className="text-6xl font-black text-[#0F172A]">$349</span>
-                <span className="text-gray-500 text-lg">/mo</span>
-              </div>
-              <ul className="space-y-3 text-gray-600 mb-8 flex-grow">
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong>Unlimited</strong> branded chatbots</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong>Unlimited</strong> conversations</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Lead capture form</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Instant push notifications</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Bot in a Box™ onboarding</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Dedicated support rep</span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span><strong>Best AI model available</strong></span></li>
-                <li className="flex gap-2 items-start"><span className="text-[#FF6B35] font-bold mt-0.5">✓</span><span>Knowledge Base (add-on available)</span></li>
-              </ul>
-              <Link href="#" className="block text-center border-2 border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35] hover:text-white px-6 py-3 rounded-full font-bold transition-colors">
-                Get Started →
-              </Link>
-            </div>
+            <button
+              onClick={() => setAddKb(!addKb)}
+              className={`relative w-14 h-7 rounded-full transition-colors flex-shrink-0 ${addKb ? 'bg-blue-600' : 'bg-gray-300'}`}
+            >
+              <span className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${addKb ? 'translate-x-7' : ''}`} />
+            </button>
           </div>
 
-          {/* Knowledge Base Add-on */}
-          <div className="bg-[#F8FAFC] border border-gray-200 rounded-2xl p-8 text-center mb-12">
-            <h3 className="text-2xl font-black text-[#0F172A] mb-2">Knowledge Base Add-on</h3>
-            <p className="text-[#FF6B35] font-bold text-lg mb-3">$29/mo per bot</p>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Train your bot on your own documents, PDFs, website content, and videos.
-              Your bot answers with your firm&apos;s actual information — not generic responses.
-              Available on all plans. Add it during signup or any time from your dashboard.
-            </p>
-          </div>
+          {showKbInfo && (
+            <div className="px-6 pb-6 pt-0">
+              <div className="bg-blue-50 rounded-xl p-4 text-sm text-blue-800 leading-relaxed">
+                <p className="font-semibold mb-1">How does this work?</p>
+                <p>Your bot doesn't just use general AI knowledge — it searches your actual firm documents first, then answers based on what YOUR firm does. Upload intake forms, practice area guides, FAQs, fee schedules, and more. The result is a bot that sounds like it's been at your firm for years.</p>
+              </div>
+            </div>
+          )}
         </div>
-      </section>
 
-      {/* Feature Comparison Table */}
-      <section className="py-16 px-4 bg-[#F8FAFC]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-black text-[#0F172A] text-center mb-10">Full feature comparison</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="bg-[#0F172A] text-white">
-                  <th className="text-left p-4 rounded-tl-xl">Feature</th>
-                  <th className="text-center p-4">Starter</th>
-                  <th className="text-center p-4 bg-[#FF6B35]">Pro</th>
-                  <th className="text-center p-4 rounded-tr-xl">Agency</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {[
-                  ['Monthly price', '$49', '$149', '$349'],
-                  ['Number of bots', '1', '3', 'Unlimited'],
-                  ['Conversations/mo', '500', '2,500', 'Unlimited'],
-                  ['Lead capture form', '✓', '✓', '✓'],
-                  ['Instant push notifications', '✓', '✓', '✓'],
-                  ['Bot in a Box™ onboarding', '✓', '✓', '✓'],
-                  ['Custom bot name & branding', '✓', '✓', '✓'],
-                  ['Dashboard & analytics', '✓', '✓', '✓'],
-                  ['Knowledge Base add-on', '+$29/bot', '+$29/bot', '+$29/bot'],
-                  ['Support', 'Email', 'Priority email', 'Dedicated rep'],
-                  ['AI model tier', 'Standard', 'Enhanced', 'Best available'],
-                  ['Cancel anytime', '✓', '✓', '✓'],
-                ].map(([feature, starter, pro, agency], i) => (
-                  <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="p-4 font-medium text-[#0F172A]">{feature}</td>
-                    <td className="p-4 text-center text-gray-600">{starter}</td>
-                    <td className="p-4 text-center text-gray-600 bg-[#FF6B35]/5 font-semibold">{pro}</td>
-                    <td className="p-4 text-center text-gray-600">{agency}</td>
-                  </tr>
+        {addKb && (
+          <p className="text-center text-blue-600 text-sm mb-8 font-medium">+$99 one-time setup fee & $29/mo per bot will be added at checkout</p>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {plans.map((plan) => (
+            <div key={plan.name} className={`bg-white rounded-2xl shadow-lg p-8 relative flex flex-col ${plan.popular ? 'ring-2 ring-blue-600' : ''}`}>
+              {plan.popular && (
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-sm font-semibold px-4 py-1 rounded-full">
+                  Most Popular
+                </span>
+              )}
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-1">{plan.name}</h2>
+                <span className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">{plan.badge}</span>
+                <p className="text-gray-500 text-sm leading-relaxed">{plan.description}</p>
+              </div>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                <span className="text-gray-500">/mo</span>
+                {addKb && <p className="text-blue-600 text-sm mt-1">+ $99 setup & $29/mo KB</p>}
+              </div>
+              <ul className="space-y-3 mb-8 flex-grow">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-gray-700 text-sm">
+                    <span className="text-green-500 font-bold">✓</span> {f}
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </ul>
+              <button
+                onClick={() => handleCheckout(plan.priceId!, plan.name)}
+                disabled={loading === plan.name}
+                className={`w-full py-3 rounded-xl font-semibold transition-colors ${plan.popular ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-900 hover:bg-gray-800 text-white'} disabled:opacity-50`}
+              >
+                {loading === plan.name ? 'Loading...' : 'Get Started'}
+              </button>
+            </div>
+          ))}
         </div>
-      </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-black text-[#0F172A] text-center mb-12">Pricing FAQ</h2>
-          <div className="space-y-6">
-            {[
-              {
-                q: 'Is there a free trial?',
-                a: 'We don\'t offer a free trial right now, but every plan comes with a 14-day money-back guarantee. If your bot isn\'t working the way you expected, we\'ll refund you — no questions asked.'
-              },
-              {
-                q: 'What counts as a "conversation"?',
-                a: 'A conversation starts when a visitor sends their first message and ends after 30 minutes of inactivity. A single visitor who chats for 45 minutes counts as two conversations. Most law firm bots average 3-5 minutes per conversation.'
-              },
-              {
-                q: 'What happens if I go over my conversation limit?',
-                a: 'We\'ll notify you when you hit 80% of your monthly limit. If you go over, we don\'t cut your bot off — we keep it running and charge overage at $0.10 per conversation. You can also upgrade your plan any time.'
-              },
-              {
-                q: 'Can I have bots on multiple websites?',
-                a: 'Yes. Each bot can be deployed on any website. Your Pro plan gives you 3 bots — you could put one on your main website, one on a specific practice area landing page, and one on a Spanish-language site, for example.'
-              },
-              {
-                q: 'What does "model-gated" mean?',
-                a: 'We use different AI models depending on your plan. Starter gets a solid, capable model. Pro unlocks a more powerful model that handles nuanced questions better. Agency gets the best model we offer. As models improve over time, your tier\'s model gets upgraded automatically.'
-              },
-              {
-                q: 'Do you offer annual billing?',
-                a: 'Yes — pay annually and save 20%. Contact us after signing up and we\'ll switch you to annual billing with the discount applied immediately.'
-              }
-            ].map((item, i) => (
-              <div key={i} className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
-                <h3 className="text-lg font-bold text-[#0F172A] mb-2">{item.q}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-[#FF6B35] py-16 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-black text-white mb-4">Your bot is waiting in its box.</h2>
-          <p className="text-white/90 mb-8 text-lg">Pick a plan. Open the box. Go live in 24 hours.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="#" className="bg-white text-[#FF6B35] hover:bg-[#F8FAFC] px-8 py-4 rounded-full font-black text-lg transition-colors shadow-lg">
-              Start with Starter — $49/mo
-            </Link>
-            <Link href="#" className="border-2 border-white text-white hover:bg-white hover:text-[#FF6B35] px-8 py-4 rounded-full font-bold text-lg transition-colors">
-              Go Pro — $149/mo
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
+        <p className="text-center text-gray-400 text-sm mt-12">All plans include a 14-day free trial. No credit card required to start.</p>
+      </div>
+    </main>
+  );
 }
