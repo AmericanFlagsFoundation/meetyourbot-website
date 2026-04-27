@@ -17,11 +17,30 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 function renderMarkdown(content: string): string {
-  return content
+  // Pre-process: convert markdown tables to HTML before other replacements
+  const withTables = content.replace(
+    /^(\|.+\|\n)((?:\|[-: ]+)+\|\n)((?:\|.+\|\n?)*)/gm,
+    (_match, headerRow, _sep, bodyRows) => {
+      const parseRow = (row: string) =>
+        row.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim())
+      const headers = parseRow(headerRow)
+      const headerHtml = headers.map(h =>
+        `<th class="px-4 py-2 text-left font-bold text-[#0F172A] bg-[#F1F5F9] border border-gray-200">${h}</th>`
+      ).join('')
+      const rows = bodyRows.split('\n').filter((r: string) => r.trim() && r.includes('|')).map((row: string) => {
+        const cells = parseRow(row)
+        const cellHtml = cells.map(c => `<td class="px-4 py-2 text-gray-700 border border-gray-200">${c}</td>`).join('')
+        return `<tr class="even:bg-[#F8FAFC]">${cellHtml}</tr>`
+      }).join('\n')
+      return `<div class="overflow-x-auto my-6"><table class="w-full border-collapse border border-gray-200 text-sm"><thead><tr>${headerHtml}</tr></thead><tbody>${rows}</tbody></table></div>`
+    }
+  )
+
+  return withTables
     // H1
     .replace(/^# (.+)$/gm, '<h1 class="text-4xl font-black text-[#0F172A] mt-10 mb-4">$1</h1>')
     // H2
-    .replace(/^## (.+)$/gm, '<h2 class="text-3xl font-black text-[#0F172A] mt-10 mb-4">$2</h2>')
+    .replace(/^## (.+)$/gm, '<h2 class="text-3xl font-black text-[#0F172A] mt-10 mb-4">$1</h2>')
     // H3
     .replace(/^### (.+)$/gm, '<h3 class="text-2xl font-bold text-[#0F172A] mt-8 mb-3">$1</h3>')
     // Bold
